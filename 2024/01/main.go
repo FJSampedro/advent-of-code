@@ -4,10 +4,43 @@ import (
 	"bufio"
 	"fmt"
 	"os"
-	"sort"
+
+	// "sort"
 	"strconv"
 	"strings"
+	// "time"
 )
+
+func quickSort(arr []int) []int {
+	if len(arr) < 2 {
+		return arr
+	}
+
+	left, right := 0, len(arr)-1
+
+	// Choose pivot
+	pivot := len(arr) / 2
+
+	// Move pivot to end
+	arr[pivot], arr[right] = arr[right], arr[pivot]
+
+	// Subdivide the array
+	for i := range arr {
+		if arr[i] < arr[right] {
+			arr[i], arr[left] = arr[left], arr[i]
+			left++
+		}
+	}
+
+	// Move pivot to end position
+	arr[left], arr[right] = arr[right], arr[left]
+
+	// Recursively sort slices
+	quickSort(arr[:left])
+	quickSort(arr[left+1:])
+
+	return arr
+}
 
 func read_input_txt() (array1 []int, array2 []int) {
 
@@ -53,10 +86,34 @@ func read_input_txt() (array1 []int, array2 []int) {
 	return
 }
 
-func get_total_distance(array1 []int, array2 []int) (total int) {
+// func get_total_distance(array1 []int, array2 []int) (total int) {
 
-	sort.Ints(array1)
-	sort.Ints(array2)
+// 	inicio := time.Now()
+// 	sort.Ints(array1)
+// 	fmt.Printf("Duración sort array 1: %v\n", time.Since(inicio))
+// 	inicio = time.Now()
+// 	sort.Ints(array2)
+// 	fmt.Printf("Duración sort array 2: %v\n", time.Since(inicio))
+
+// 	for i := range array1 {
+
+// 		if distance := array2[i] - array1[i]; distance > 0 {
+// 			total += distance
+// 		} else {
+// 			distance := array1[i] - array2[i]
+// 			total += distance
+// 		}
+// 	}
+// 	return total
+// }
+
+func get_total_distance(array1 []int, array2 []int) (total int) {
+	//inicio := time.Now()
+	quickSort(array1)
+	//fmt.Printf("Duración sort array 1: %v\n", time.Since(inicio))
+	//inicio = time.Now()
+	quickSort(array2)
+	//fmt.Printf("Duración sort array 2: %v\n", time.Since(inicio))
 
 	for i := range array1 {
 
@@ -86,6 +143,13 @@ func get_similarity_score(array1 []int, array2 []int) (similarity int) {
 }
 
 func main() {
+
+	// fmt.Println("############# Part One - without quicksort ##############")
+	// arr1, arr2 := read_input_txt()
+
+	// sum := get_total_distance(arr1, arr2)
+
+	// fmt.Println("Total distance : ", sum)
 
 	fmt.Println("############# Part One ##############")
 	arr1, arr2 := read_input_txt()
