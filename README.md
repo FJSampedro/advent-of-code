@@ -1,9 +1,7 @@
 # advent-of-code
 
-[![Build Status](https://storage.googleapis.com/derat-build-badges/35fd4de0-c9e0-4030-a68a-770f44dedcd0.svg)](https://storage.googleapis.com/derat-build-badges/35fd4de0-c9e0-4030-a68a-770f44dedcd0.html)
-
 This repository contains my Go solutions for [Advent of Code] programming
-challenges, along with [related library code](./lib) and
+challenges, inspired and forked from [[https://codeberg.org/derat/advent-of-code]], along with 
 [advent.sh](./advent.sh), a shell script that makes various common tasks easier.
 
 [Advent of Code]: https://adventofcode.com/
@@ -11,24 +9,12 @@ challenges, along with [related library code](./lib) and
 ## Usage
 
 In order for the library code to be able to download input,
-`$HOME/.advent-of-code-session` should contain the value of the `session` cookie
+`$REPO_DIR/.cookie` should contain the value of the `session` cookie
 that gets set for the `.adventofcode.com` domain after authenticating with the
-website. The session needs to be updated every year or two.
+website. The session needs to be updated every year or two. You can set it using `advent.sh cookie`command.
 
-I have a function similar to the following declared in my shell ([zsh]):
-
-```sh
-advent() {
-  case "$1" in
-    -h|--help|check|checkall|help|input|run|save|stdin|web)
-      $HOME/advent-of-code/advent.sh "$@"
-      ;;
-    *)
-      cd "$($HOME/advent-of-code/advent.sh "$@")"
-      ;;
-  esac
-}
-```
+I add this line to .bashrc
+`alias advent="<$REPO_DIR>/advent.sh"`
 
 This lets me run various commands like the following:
 
@@ -36,11 +22,10 @@ This lets me run various commands like the following:
 *   `advent web` - Open today's puzzle in a web browser.
 *   `advent run` - Run `main.go` in the current directory with real input.
 *   `advent stdin <example.txt` - Run `main.go` with other input.
-*   `advent input` - Print today's input.
+*   `advent input` - Gets today's input.
+*   `advent cookie <cookie>` - Sets session cookie.
 *   `advent save` - Run `main.go` and save its output under `answers/`.
 *   `advent check` - Run `main.go` and compare its output against saved output.
-
-[zsh]: https://en.wikipedia.org/wiki/Z_shell
 
 ## Copyright
 

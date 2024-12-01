@@ -89,10 +89,10 @@ case "$1" in
     check_in_day_dir
     year=$cur_year
     day=$cur_day
-    curl --header "Cookie: $(cat ../../cookie.txt)" https://adventofcode.com/2024/day/1/input -o input.txt
+    curl --header "Cookie: $(cat ../../.cookie)" https://adventofcode.com/$year/day/$day/input -o input.txt
     ;;
   cookie)
-    exec echo $2 > $PWD/cookie.txt
+    exec echo $2 > $PWD/.cookie
     ;;
   lib)
     exec echo "${script_dir}/lib"
@@ -164,16 +164,10 @@ if [ ! -e "$dir" ]; then
   cat <<EOF >"${dir}/main.go"
 package main
 
-import (
-	"fmt"
-
-	"codeberg.org/derat/advent-of-code/lib"
-)
+import "fmt"
 
 func main() {
-	for _, ln := range lib.InputLines("${year}/${day}") {
-		fmt.Println(ln)
-	}
+    fmt.Println("Hola, Mundo")
 }
 EOF
 fi
