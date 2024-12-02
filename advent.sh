@@ -8,6 +8,7 @@ die() {
 usage() {
   prog=$(basename "$0")
   cat <<EOF >&2
+
 Usage:
   $prog <YEAR> <DAY>   Print (and init) dir for specified year and day.
   $prog <DAY>          Print dir for specified day in current dir's year.
@@ -89,10 +90,10 @@ case "$1" in
     check_in_day_dir
     year=$cur_year
     day=$cur_day
-    curl --header "Cookie: $(cat ../../.cookie)" https://adventofcode.com/$year/day/$day/input -o input.txt
+    curl --header "Cookie: $(cat $script_dir/.cookie)" https://adventofcode.com/$year/day/$day/input -o input.txt
     ;;
   cookie)
-    exec echo $2 > $PWD/.cookie
+    exec echo $2 > $script_dir/.cookie
     ;;
   lib)
     exec echo "${script_dir}/lib"
