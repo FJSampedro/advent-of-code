@@ -1,27 +1,20 @@
 package main
 
 import (
-	"bufio"
 	"fmt"
-	"os"
+	"lib"
 	"strconv"
 	"strings"
 )
 
-func read_input_txt() (array [][]int) {
-
-	// Open file
-	file, err := os.Open("input.txt")
+func readInputTxt() (array [][]int) {
+	lines, err := lib.ReadTxtLines()
 	if err != nil {
-		fmt.Println("Error opening file:", err)
 		return
 	}
-	defer file.Close()
 
 	// Read lines
-	scanner := bufio.NewScanner(file)
-	for scanner.Scan() {
-		line := scanner.Text()
+	for _, line := range lines {
 		var aux_array []int
 		// Strips in columns
 		svalues := strings.Fields(line)
@@ -38,15 +31,9 @@ func read_input_txt() (array [][]int) {
 		array = append(array, aux_array)
 	}
 
-	// Error handling during reading
-	if err := scanner.Err(); err != nil {
-		fmt.Println("Error reading file:", err)
-		return
-	}
-
 	return
 }
-func part_one(inputs [][]int) {
+func partOne(inputs [][]int) {
 	reports_sum := 0
 	for _, report := range inputs {
 		safe := true
@@ -86,7 +73,7 @@ func part_one(inputs [][]int) {
 	fmt.Println("The num of safe reports are : ", reports_sum)
 }
 
-func check_safe(report []int) (safe int) {
+func checkSafe(report []int) (safe int) {
 	safe = 0
 	increasing := false
 	decreasing := false
@@ -124,17 +111,17 @@ func check_safe(report []int) (safe int) {
 	return
 }
 
-func part_two(inputs [][]int) {
+func partTwo(inputs [][]int) {
 	reports_sum := 0
 	for _, report := range inputs {
-		safe := check_safe(report)
+		safe := checkSafe(report)
 		if safe != 0 {
-			fmt.Println(report)
+			//fmt.Println(report)
 			for i := range report {
 				var check_subs []int
 				check_subs = append(check_subs, report[:i]...)
 				check_subs = append(check_subs, report[i+1:]...)
-				safe = check_safe(check_subs)
+				safe = checkSafe(check_subs)
 				if safe == 0 {
 					break
 				}
@@ -150,9 +137,9 @@ func part_two(inputs [][]int) {
 
 func main() {
 	fmt.Println("################## Part One ##################")
-	inputs := read_input_txt()
-	part_one(inputs)
+	inputs := readInputTxt()
+	partOne(inputs)
 	fmt.Println("################## Part Two ##################")
-	inputs = read_input_txt()
-	part_two(inputs)
+	inputs = readInputTxt()
+	partTwo(inputs)
 }
