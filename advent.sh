@@ -165,12 +165,24 @@ if [ ! -e "$dir" ]; then
   cat <<EOF >"${dir}/main.go"
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"lib"
+)
 
 func main() {
-    fmt.Println("Hola, Mundo")
+	fmt.Println(lib.ReadTxtLines())
 }
 EOF
+  cat <<EOF >"${dir}/go.mod"
+module main
+
+go 1.23.3
+
+require lib v0.0.0
+replace lib => ../../lib
+EOF
+curl --header "Cookie: $(cat $script_dir/.cookie)" https://adventofcode.com/$year/day/$day/input -o "${dir}/input.txt"
 fi
 
 echo "$dir"
