@@ -154,6 +154,7 @@ case "$1" in
     [ "$(date +%m)" -eq 12 ] || die "Not in December"
     year=$(date +%Y)
     day=$(date +%d)
+    get_quest $year $day
     ;;
   web)
     check_in_day_dir
@@ -210,6 +211,8 @@ require lib v0.0.0
 replace lib => ../../lib
 EOF
 curl --header "Cookie: $(cat $script_dir/.cookie)" https://adventofcode.com/$year/day/$day/input -o "${dir}/input.txt"
+cd $dir
+get_quest $year $day
 fi
 
 echo "$dir"

@@ -13,19 +13,32 @@ In order for the library code to be able to download input,
 that gets set for the `.adventofcode.com` domain after authenticating with the
 website. The session needs to be updated every year or two. You can set it using `advent.sh cookie`command.
 
-I add this line to .bashrc
-`alias advent="<$REPO_DIR>/advent.sh"`
-
+I have a function similar to the following declared in my shell (.bashrc):
+``` bash
+advent() {
+  case "$1" in
+    -h|--help|check|checkall|help|input|run|save|stdin|web)
+      $HOME/advent-of-code/advent.sh "$@"
+      ;;
+    *)
+      cd "$($HOME/advent-of-code/advent.sh "$@")"
+      ;;
+  esac
+}
+```
 This lets me run various commands like the following:
 
 *   `advent today` - Move to the directory for today's puzzle.
 *   `advent web` - Open today's puzzle in a web browser.
 *   `advent run` - Run `main.go` in the current directory with real input.
 *   `advent stdin <example.txt` - Run `main.go` with other input.
+*   `advent quest` - Gets today's quest information.
 *   `advent input` - Gets today's input.
 *   `advent cookie <cookie>` - Sets session cookie.
 *   `advent save` - Run `main.go` and save its output under `answers/`.
 *   `advent check` - Run `main.go` and compare its output against saved output.
+
+The usual flow for me is using `advent today` and then you should have the info for part one, your input and a sample files ready to go.
 
 ## Copyright
 
