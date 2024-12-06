@@ -57,6 +57,27 @@ check_in_day_dir() {
     die "Must be in year/day directory"
   fi
 }
+get_quest(){
+  year=$1
+  day=$2
+  curl --header "Cookie: $(cat $script_dir/.cookie)" https://adventofcode.com/$year/day/$day -o response.md
+  awk '
+  BEGIN {
+      inside_article = 0
+  }
+  /<article/ {
+      inside_article = 1
+  }
+  /<\/article>/ {
+      inside_article = 0
+      print $0
+  }
+  inside_article {
+      print $0
+  }
+  ' "response.md" > quest.md 
+  rm -f response.md
+}
 
 year=
 day=
@@ -85,6 +106,12 @@ case "$1" in
       "$0" check || true
     done
     exit 0
+    ;;
+  quest)
+    check_in_day_dir
+    year=$cur_year
+    day=$cur_day
+    get_quest $year $day
     ;;
   input)
     check_in_day_dir
