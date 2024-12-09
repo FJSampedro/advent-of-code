@@ -116,6 +116,7 @@ func getIncorrectOrders(rules map[int][]int, orders [][]int) (incorrectOrders []
 	}
 	return
 }
+
 func fixOrders(rules map[int][]int, order []int) (incorrect bool) {
 	incorrect = false
 	for i, page := range order {
@@ -124,9 +125,8 @@ func fixOrders(rules map[int][]int, order []int) (incorrect bool) {
 				for _, r := range rule {
 					if n == r {
 						incorrect = true
-						fmt.Println("Swap :", order[j], " with : ", order[j+i+1])
-						temp := order[j]
-						order[j] = order[j+i+1]
+						temp := order[i]
+						order[i] = order[j+i+1]
 						order[j+i+1] = temp
 					}
 				}
@@ -144,7 +144,6 @@ func partTwo() {
 	incorrect := getIncorrectOrders(rules, orders)
 
 	for _, o := range incorrect {
-		fmt.Println(o, " : ", orders[o])
 		fixOrders(rules, orders[o])
 	}
 	sum := 0
